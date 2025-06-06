@@ -1,7 +1,16 @@
 // core/injection/injector.dart
+import 'package:bloc_clean_demo/features/joke/data/datasources/joke_remote_data_source_impl.dart';
+import 'package:bloc_clean_demo/features/joke/domain/repositories/joke_repository.dart';
+import 'package:bloc_clean_demo/features/joke/presentation/bloc/joke_bloc.dart';
+import 'package:bloc_clean_demo/features/notes/data/models/note_model.dart';
 import 'package:bloc_clean_demo/features/todo/data/datasources/todo_local_datasource.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
+import '../../features/joke/data/datasources/joke_remote_data_source.dart';
+import '../../features/joke/data/repositories/joke_repository_impl.dart';
+import '../../features/joke/domain/usecases/get_random_joke_usecase.dart';
 import '../../features/notes/data/datasources/note_local_datasource.dart';
 import '../../features/notes/data/datasources/note_local_datasource_impl.dart';
 import '../../features/notes/data/repositories/note_repository_impl.dart';
@@ -36,6 +45,26 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddNoteUseCase(sl()));
   sl.registerLazySingleton<NoteRepository>(() => NoteRepositoryImpl(sl()));
   sl.registerLazySingleton<NoteLocalDataSource>(
-    () => NoteLocalDataSourceImpl(),
+    () => NoteLocalDataSourceImpl(sl<Box<NoteModel>>()),
   );
+
+  // Joke Feature
+  sl.registerLazySingleton<JokeRemoteDataSource>(
+    () => JokeRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<JokeRepository>(() => JokeRepositoryImpl(sl()));
+  sl.registerLazySingleton(() => GetRandomJokeUseCase(sl()));
+  sl.registerFactory(() => JokeBloc(sl()));
+}
+
+Future<void> initHive() async {
+  final appDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDir.path);
+
+  Hive.registerAdapter(NoteModelAdapter());
+  final noteBox = await Hive.openBox<NoteModel>('notes');
+
+  sl.registerSingleton<Box<NoteModel>>(noteBox);
+
+  // Register other Hive boxes if needed
 }

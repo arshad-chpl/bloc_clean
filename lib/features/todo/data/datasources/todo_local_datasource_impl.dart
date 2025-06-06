@@ -6,7 +6,7 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
 
   @override
   Future<List<TodoModel>> getTodos() async {
-    return _todoList;
+    return List.from(_todoList);
   }
 
   @override

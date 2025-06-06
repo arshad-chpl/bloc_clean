@@ -16,7 +16,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<LoadTodos>(_onLoadTodos);
     on<AddTodo>(_onAddTodo);
   }
-    void _onLoadTodos(LoadTodos event, Emitter<TodoState> emit) async {
+  void _onLoadTodos(LoadTodos event, Emitter<TodoState> emit) async {
     emit(TodoLoading());
     try {
       final todos = await getTodos();

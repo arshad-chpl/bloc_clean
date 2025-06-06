@@ -7,21 +7,29 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('All Features')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/todos'),
-            child: Text('Todos'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/notes'),
-            child: Text('Notes'),
-          ),
-          // ElevatedButton(
-          //     onPressed: () => Navigator.pushNamed(context, '/groceries'),
-          //     child: Text('Groceries')),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 25,
+          children: [
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/todos'),
+              child: Text('Todos'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/notes'),
+              child: Text('Notes'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/joke'),
+              child: Text('Joke'),
+            ),
+            // ElevatedButton(
+            //     onPressed: () => Navigator.pushNamed(context, '/groceries'),
+            //     child: Text('Groceries')),
+          ],
+        ),
       ),
     );
   }

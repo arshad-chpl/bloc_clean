@@ -1,4 +1,6 @@
-class Note {
+import 'package:equatable/equatable.dart';
+
+class Note extends Equatable{
   final String title;
   final String content;
 
@@ -6,4 +8,8 @@ class Note {
     required this.title,
     required this.content,
   });
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [title, content];
 }
